@@ -1,6 +1,28 @@
 # nifi-nar-gradle-plugin
 
-TODO:
+## Usage
+
+In your build.gradle file:
+
+```
+buildscript {
+  repositories {
+    mavenLocal()
+    maven {
+      // for local testing
+      url "file:///Users/whilton/work/videology/repo"
+    }
+  }
+
+  dependencies {
+    classpath 'com.vg:nifi-nar-gradle-plugin:1.0'
+  }
+}
+
+apply plugin: 'nar'
+```
+
+## TODO
 
 * nar task description
 
