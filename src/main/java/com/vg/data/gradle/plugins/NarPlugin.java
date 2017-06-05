@@ -22,24 +22,26 @@ public class NarPlugin implements Plugin<Project> {
         final NarPluginConvention pluginConvention = new NarPluginConvention(project);
         project.getConvention().getPlugins().put("nar", pluginConvention);
 
-
         project.getTasks().withType(Nar.class, new Action<Nar>() {
             public void execute(Nar task) {
                 task.classpath(new Object[] {new Callable() {
                     public Object call() throws Exception {
-                        FileCollection runtimeClasspath = project.getConvention().getPlugin(JavaPluginConvention.class)
-                                .getSourceSets().getByName(SourceSet.MAIN_SOURCE_SET_NAME).getRuntimeClasspath();
+                        FileCollection runtimeClasspath = project
+                            .getConvention()
+                            .getPlugin(JavaPluginConvention.class)
+                            .getSourceSets()
+                            .getByName(SourceSet.MAIN_SOURCE_SET_NAME)
+                            .getRuntimeClasspath();
                         return runtimeClasspath;
                     }
                 }});
             }
         });
 
-
         Nar nar = project.getTasks().create(NAR_TASK_NAME, Nar.class);
         nar.setGroup(BasePlugin.BUILD_GROUP);
-        // TODO: nar id here????
         nar.setNarId(project.getName());
+
         ArchivePublishArtifact narArtifact = new ArchivePublishArtifact(nar);
         project.getExtensions().getByType(DefaultArtifactPublicationSet.class).addCandidate(narArtifact);
     }
@@ -47,7 +49,5 @@ public class NarPlugin implements Plugin<Project> {
     // TODO: build should not include nifi-api-x.x.x.jar
     // maybe adding 'provided.....' properties ala:
     // https://github.com/gradle/gradle/blob/master/subprojects/plugins/src/main/java/org/gradle/api/plugins/WarPlugin.java
-    // Will do it.
-
-    // TODO: need to prevent creation of empty jar ... war plugin does this (how?)
+    // will do it.
 }
