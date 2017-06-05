@@ -1,0 +1,16 @@
+allprojects {
+  apply plugin: 'java'
+  apply plugin: 'maven'
+}
+
+dependencies {
+  compile gradleApi()
+}
+
+uploadArchives {
+  repositories {
+    mavenDeployer {
+      repository(url: "file://$projectDir/../repo")
+    }
+  }
+}
